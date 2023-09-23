@@ -9,13 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@lezer/highlight": "^1.1.6",
+    "@mui/material": "^5.14.10",
+    "@uiw/codemirror-theme-vscode": "^4.21.18",
+    "@uiw/codemirror-themes": "^4.21.18",
+    "@uiw/react-codemirror": "^4.21.18",
     "autoprefixer": "10.4.16",
     "eslint": "8.50.0",
     "eslint-config-next": "13.5.2",
-    "next": "13.5.2",
+    "express": "^4.18.2",
+    "isomorphic-fetch": "^3.0.0",
+    "next": "^13.5.2",
     "postcss": "8.4.30",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
     "tailwindcss": "3.3.3"
   }
 }
