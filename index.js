@@ -2,16 +2,11 @@ const express = require("express");
 const { createServer } = require("node:http");
 const { join } = require("node:path");
 const { Server } = require("socket.io");
+const { createSuggestion } = require("./utils");
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
-
-// const { OpenAIApi, Configuration } = require("openai");
-
-// const configuration = new Configuration({
-//   apiKey: "test",
-// });
 
 app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
@@ -19,16 +14,6 @@ app.get("/", (req, res) => {
 
 io.on("connection", async (socket) => {
   console.log("a user connected");
-
-  //   const openai = new OpenAIApi(configuration);
-
-  //   // save the metrics of the user and send to the admin
-  //   const response = await openai.complete({
-  //     engine: "gpt-4",
-  //     messages: [],
-  //     temperature: 0,
-  //     max_tokens: 1024,
-  //   });
 
   socket.on("user-update-code", ({ code }) => {
     // use OPEN AI tool to find code issues and send back to user
@@ -43,6 +28,29 @@ io.on("connection", async (socket) => {
   });
 });
 
-server.listen(3000, () => {
+server.listen(3000, async () => {
+  const codePrompt = `
+This is a technical interview and you are the interviewer. Please find any issues/errors (sintaxis/logic) in the following code, if you cant find any give a suggestion to the user on how to improve the code (note: do not send me any code snippet, just natural language).
+
+io.on("connection", async (socket) => {
+    console.log("a user connected");
+    const newDate = new Date();
+
+    if(newDate){
+        console.log(newDate.toDateString());
+    }
+  });
+
+  Give your suggestion in this format:
+  {
+    "suggest": yourSuggestions,
+    "logicIssues": yourLogicIssues,
+    "syntaxIssues": yourSyntaxIssues
+  }
+}
+`;
+
+  console.log(await createSuggestion(codePrompt));
+
   console.log("server running at http://localhost:3000");
 });
