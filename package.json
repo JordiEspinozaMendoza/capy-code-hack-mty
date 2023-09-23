@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/JordiEspinozaMendoza/CapyCode-Socket/issues"
   },
-  "homepage": "https://github.com/JordiEspinozaMendoza/CapyCode-Socket#readme"
+  "homepage": "https://github.com/JordiEspinozaMendoza/CapyCode-Socket#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "install": "^0.13.0",
+    "npm": "^10.1.0",
+    "openai": "^4.10.0",
+    "socket.io": "^4.7.2"
+  }
 }
