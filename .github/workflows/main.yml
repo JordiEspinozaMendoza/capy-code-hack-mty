@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
 env:
-  HEROKU_APP_NAME: "capycode-socket"
+  HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
 jobs:
