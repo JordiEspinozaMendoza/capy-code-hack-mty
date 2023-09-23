@@ -1,0 +1,21 @@
+name: "capycode-heroku-socket"
+on:
+  push:
+    branches: [main]
+env:
+  HEROKU_APP_NAME: "capycode-socket"
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Heroku
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Docker build
+        run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+      - name: Publish
+        run: |
+          heroku container:push web -a $HEROKU_APP_NAME
+          heroku container:release web -a $HEROKU_APP_NAME
