@@ -31,7 +31,9 @@ El asistente de entrevistas de código es una potente aplicación web diseñada 
 
 5. **Visualización de Datos en Streamlit**: Los datos de la entrevista se envían a Streamlit, donde los reclutadores pueden analizar el desempeño de los candidatos y tomar decisiones informadas.
 
-
+##Vinculos 
+1. capycode.co
+2. https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app
 
 
 
