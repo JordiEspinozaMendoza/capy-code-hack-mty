@@ -15,7 +15,10 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
     
 )
-response = requests.get("https://socket-capycode-97b8bfffeda4.herokuapp.com/api/applicants/applicant_18")
+
+user_id = st.experimental_get_query_params()["user_id"][0]
+
+response = requests.get("https://socket-capycode-97b8bfffeda4.herokuapp.com/api/applicants/applicant_"+str(user_id))
 jres = response.json()
 logic = 0
 logicbyTime = []
@@ -76,7 +79,7 @@ df = pd.DataFrame(
     }
 )
 
-feedback = requests.get("https://socket-capycode-97b8bfffeda4.herokuapp.com/api/applicants/feedback/applicant_18")
+feedback = requests.get("https://socket-capycode-97b8bfffeda4.herokuapp.com/api/applicants/feedback/applicant_"+str(user_id))
 feedres = feedback.json()
 
 with col1:
@@ -164,3 +167,4 @@ with col6:
     with col3:
         st.write('')
     st.line_chart(chart_data_syntax,x="Time",y="# of errors",color="#849113")    
+
