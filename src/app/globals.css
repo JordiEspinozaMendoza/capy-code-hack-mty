@@ -51,7 +51,7 @@ header {
 header > div{
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: stretch;
 }
 
@@ -85,6 +85,7 @@ header > div{
   color: #174ea6;
   text-decoration: underline;
 }
+
 .Logo {
   width: 40px;
   height: 40px;
@@ -163,5 +164,13 @@ header > div{
 }
 
 .MessageBox{
+  font-family: 'Maven Pro', sans-serif;
+}
+
+.ProblemStatement {
+  font-family: 'Maven Pro', sans-serif;
+}
+
+.MessageBox {
   font-family: 'Maven Pro', sans-serif;
 }

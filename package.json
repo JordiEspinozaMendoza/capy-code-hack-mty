@@ -28,6 +28,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-chat-elements": "^12.0.10",
+    "react-countdown": "^2.3.5",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "socket.io": "^4.7.2",
