@@ -6,6 +6,43 @@ require("dotenv").config();
 const configuration = {
   apiKey: process.env.OPEN_AI_API_KEY,
 };
+const submitPrompt = (code, problem) => {
+  return `
+ This is a problem that needs to run in js
+  problem start
+  ${problem}
+  problem end 
+
+  Check if this code will run correctly in js, if not, give suggestions on how to fix it.
+  Code starts here
+  ${code}
+    Code ends here.
+     Give your suggestion in this format:
+    { 
+      "answer": answer,
+    
+    }
+  }
+  
+  `;
+};
+
+const sendFinal = async (content, problem) => {
+
+  const openai = new OpenAI(configuration);
+
+  const suggestion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: submitPrompt(content, problem),
+      },
+    ],
+    model: "gpt-4",
+  });
+
+  return suggestion.choices;
+};
 
 const getPrompts = (code, problem) => {
   return `
@@ -73,4 +110,5 @@ const createSuggestion = async (content, problem, testData) => {
 
 module.exports = {
   createSuggestion,
+  sendFinal
 };

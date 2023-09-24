@@ -2,7 +2,7 @@ const express = require("express");
 const { createServer, get } = require("node:http");
 const { join } = require("node:path");
 const { Server } = require("socket.io");
-const { createSuggestion } = require("./utils");
+const { createSuggestion, sendFinal } = require("./utils");
 const http = require("http");
 const cors = require("cors");
 
@@ -29,6 +29,7 @@ app.use(
 
 // TODO: Replace the following with your app's Firebase project configuration
 const { createClient } = require("redis");
+const { send } = require("node:process");
 const client = createClient({
   url: process.env.REDIS_URL,
 });
@@ -53,7 +54,7 @@ app.get("/api/applicants/:id", async (req, res) => {
 io.on("connection", async (socket) => {
   console.log("a user connected");
 
-  socket.on("user-start-interview", () => {});
+  socket.on("user-start-interview", () => { });
 
   socket.on("user-update-code", ({ code }) => {
     // use OPEN AI tool to find code issues and send back to user
@@ -107,6 +108,38 @@ io.on("connection", async (socket) => {
       socket.emit("suggestion", {
         suggestion: {
           message: suggestionResponse,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  socket.on("submit", async ({ code, id_user, problem }) => {
+    try {
+
+      const suggestion = await sendFinal(code, problem, testData);
+
+      userSession = await client.get(`applicant_${id_user}`);
+
+      if (userSession) {
+        const newData = JSON.parse(userSession);
+        newData.push(suggestion);
+
+        client.set(`applicant_${id_user}`, JSON.stringify(newData));
+      } else {
+        client.set(`applicant_${id_user}`, JSON.stringify([suggestion]));
+      }
+
+      let answerResponse = "";
+
+      const message = JSON.parse(suggestion[0].message.content);
+
+      answerResponse = message["answer"];
+
+      socket.emit("submit_answer", {
+        suggestion: {
+          message: answerResponse,
         },
       });
     } catch (err) {
