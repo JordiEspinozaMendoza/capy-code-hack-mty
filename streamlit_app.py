@@ -4,7 +4,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from datetime import datetime
-from bokeh.plotting import figure
 
 
 #Whole page edit
@@ -123,16 +122,7 @@ with col4:
     st.header("Overall Errors")
 st.line_chart(chart_data, x="Time", y="# of errors",color="#DE2A1D")
 
-#Lines per Second and Grammar errors
-lines=[10,15,25,40]
-Time=[30,90,150,200]
-p = figure(
-    x_axis_label='Time',
-    y_axis_label='Lines in Code')
 
-p.line(Time, lines, legend_label='# of lines', line_width=2)
-
-#Types of error in code
 
 
 chart_data_syntax = pd.DataFrame(
