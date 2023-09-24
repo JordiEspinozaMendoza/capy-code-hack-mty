@@ -31,27 +31,27 @@ El asistente de entrevistas de código es una potente aplicación web diseñada 
 
 5. **Visualización de Datos en Streamlit**: Los datos de la entrevista se envían a Streamlit, donde los reclutadores pueden analizar el desempeño de los candidatos y tomar decisiones informadas.
 
-##Vinculos 
-1. capycode.co
-2. https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app
-   
-##Imagenes 
-1. capycode.co
+
+## Archivos adjuntos/vinculos
+1. **capycode.co**
 
    Lobby:
    <img width="1249" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/3701a3d8-b9aa-47d1-8d2a-0b7ab5aa1ebb">
 
-   Coding Screen: <br>
+   Guia: <br>
    <img width="355" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/fbd21ecc-717e-477e-a5c2-10280617bc54">
 
-   Finished Screen: <br>
+   Pantalla de codificacion: <br>
+   <img width="1225" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/1af9f761-de31-4471-ad69-45eca48f2054">
+
+   Pantalla terminada: <br>
    <img width="1234" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/dfb3f569-c691-4038-a8d9-4ed804b72744">
 
 
 
-2. https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app
+3. **https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app**
    <br>
-   User Screen: 
+   Dashboards de entrevistado: 
    <br>
    <img width="1251" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/580b699e-8473-4f7f-bb71-1544105af0b9">
 
