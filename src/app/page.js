@@ -12,14 +12,14 @@ const socket = io.connect(process.env.NEXT_PUBLIC_SOCKET);
 import { MessageBox, Avatar } from "react-chat-elements";
 import IconButton from "@mui/material/IconButton";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Countdown from "react-countdown";
 
 function Editor() {
   const [value, setValue] = useState("console.log('hello world!');");
   const [messages, setMessages] = useState([]);
   const [interviewStarted, setInterviewStarted] = useState(false);
 
-  const onChange = useCallback((val, viewUpdate) => {
-    console.log("val:", val);
+  const onChange = useCallback((val) => {
     socket.emit("user-update-code", {
       code: val,
     });
@@ -30,7 +30,7 @@ function Editor() {
     const handleGetSuggestion = () => {
       socket.emit("get-suggestion", {
         code: value,
-        id_user: 2,
+        id_user: 3,
       });
     };
 
@@ -45,7 +45,6 @@ function Editor() {
 
   useEffect(() => {
     socket.on("suggestion", (data) => {
-      console.log(data);
       Object.keys(data.suggestion).map((key) => {
         setMessages((messages) => [...messages, data.suggestion[key]]);
       });
@@ -70,12 +69,18 @@ function Editor() {
   return (
     <>
       <header>
-        <img className="Logo" src="capybara.png" />
-        <p id="CompanyName">CapyCode</p>
-        <IconButton sx={{ color: "black" }}>
-          <HelpOutlineIcon />
-        </IconButton>
+        <div className="HeaderLogo">
+          <img className="Logo" src="capybara.png" />
+          <p id="CompanyName">CapyCode</p>
+        </div>
+        <div className="HelpButton">
+          <Countdown date={Date.now() + 60000} />
+          <IconButton sx={{ color: "black" }}>
+            <HelpOutlineIcon />
+          </IconButton>
+        </div>
       </header>
+
       <div className="MainContent">
         <div className="Editor">
           <CodeMirror
