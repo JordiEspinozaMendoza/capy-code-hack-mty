@@ -80,7 +80,9 @@ io.on("connection", async (socket) => {
 
   socket.on("get-suggestion", async ({ code, id_user, problem }) => {
     try {
-      const testData = true;
+      console.log("Getting suggestion from user ", id_user);
+
+      const testData = false;
 
       const suggestion = await createSuggestion(code, problem, testData);
 
@@ -88,11 +90,28 @@ io.on("connection", async (socket) => {
 
       if (userSession) {
         const newData = JSON.parse(userSession);
-        newData.push(suggestion);
+        const message = JSON.parse(suggestion[0].message.content);
+
+        newData.push({
+          timeFrame: new Date(),
+          logicCount: message["logicCount"],
+          syntaxCount: message["syntaxCount"],
+        });
 
         client.set(`applicant_${id_user}`, JSON.stringify(newData));
       } else {
-        client.set(`applicant_${id_user}`, JSON.stringify([suggestion]));
+        const message = JSON.parse(suggestion[0].message.content);
+
+        client.set(
+          `applicant_${id_user}`,
+          JSON.stringify([
+            {
+              timeFrame: new Date(),
+              logicCount: message["logicCount"],
+              syntaxCount: message["syntaxCount"],
+            },
+          ])
+        );
       }
 
       let suggestionResponse = "";
@@ -131,17 +150,6 @@ io.on("connection", async (socket) => {
       const testData = false;
 
       const suggestion = await sendFinal(code, problem, testData);
-
-      const userSession = await client.get(`applicant_${id_user}`);
-
-      if (userSession) {
-        const newData = JSON.parse(userSession);
-        newData.push(suggestion);
-
-        client.set(`applicant_${id_user}`, JSON.stringify(newData));
-      } else {
-        client.set(`applicant_${id_user}`, JSON.stringify([suggestion]));
-      }
 
       let answerResponse = "";
 

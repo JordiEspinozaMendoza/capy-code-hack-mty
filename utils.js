@@ -45,7 +45,7 @@ const sendFinal = async (content, problem) => {
 const getPrompts = (code, problem) => {
   return `
   This is a technical interview and you are the interviewer. 
-  The candidate is trying to solve the following problem with JavaScript:
+  The candidate is trying to solve the following problem with a language of their choice:
   problem start
   ${problem}
   problem end 
@@ -57,7 +57,9 @@ const getPrompts = (code, problem) => {
   ${code}
     Code ends here.
    If logicIssues and syntaxIssues are empty, send [] in their respective fields.
-    Give your suggestion in this format (issues should be in the same string and line, leave a space after the comma):
+    Give your suggestion in this json format (issues should be in the same string and line, leave a space after the comma
+
+    Return this json object with the values filled in:
     { 
       "suggest": yourSuggestions,
       "logicIssues": yourLogicIssues,
@@ -67,8 +69,6 @@ const getPrompts = (code, problem) => {
       "feedback": yourFeedback,
       "summaryMessage": yourSummaryMessage
     }
-  }
-  
   `;
 };
 
@@ -100,7 +100,7 @@ const createSuggestion = async (content, problem, testData) => {
         content: getPrompts(content, problem),
       },
     ],
-    model: "gpt-4",
+    model: process.env.OPEN_AI_MODEL,
   });
 
   return suggestion.choices;
