@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import React from "react";
 import "./globals.css";
 import { useState, useCallback, useEffect, useRef } from "react";
 import CodeMirror from "@uiw/react-codemirror";
@@ -7,16 +8,32 @@ import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark, vscodeDarkInit } from "@uiw/codemirror-theme-vscode";
 import "react-chat-elements/dist/main.css";
 import io from "socket.io-client";
+import Modal from "@mui/material/Modal";
 
-const socket = io.connect(process.env.NEXT_PUBLIC_SOCKET);
 import { MessageBox, Avatar } from "react-chat-elements";
 import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Countdown from "react-countdown";
 import { problemStatements } from "@/utils/utils";
+import Typography from "@mui/material/Typography";
 
 const selectedProblemStatement =
   problemStatements[Math.floor(Math.random() * problemStatements.length)];
+
+const socket = io.connect(process.env.NEXT_PUBLIC_SOCKET);
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 function Editor() {
   const [value, setValue] = useState("console.log('hello world!');");
@@ -24,6 +41,13 @@ function Editor() {
   const [interviewStarted, setInterviewStarted] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const dateStarted = useRef(Date.now());
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+    console.log("open");
+  };
+  const handleClose = () => setOpen(false);
 
   const onChange = useCallback((val, z) => {
     socket.emit("user-update-code", {
@@ -79,6 +103,31 @@ function Editor() {
           >
             Start Interview
           </button>
+          <button className="infoBtn" onClick={handleOpen}>
+            How it works
+          </button>
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                How it works
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                1. Start the interview
+                <br q />
+                2. Write your code in the editor
+                <br />
+                3. Get suggestions from our AI
+                <br />
+                4. Get the job!
+              </Typography>
+            </Box>
+          </Modal>
         </div>
       </body>
     );
@@ -120,13 +169,15 @@ function Editor() {
           {isLoadingSuggestions && <p>CapyCode is writing...</p>}
           {messages.slice(0, 10).map((message, key) => (
             <MessageBox
+              className="MessageBox"
               key={key}
               position={"rights"}
               type={"text"}
               text={message}
               title={"CapyCode"}
-              dateString={new Date()}
+              titleColor="#054A91"
               avatar="capybara.png"
+              date={new Date()}
             />
           ))}
         </div>

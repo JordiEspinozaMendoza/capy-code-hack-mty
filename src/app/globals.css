@@ -31,11 +31,13 @@ body {
   font-family: 'Maven Pro', sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
   gap: 10px;
-
+  width: 100%;
+  display: flex;
+  background-color: #f3f7f7;
 }
 
 header {
@@ -72,6 +74,18 @@ header>div {
   height: 150px;
   justify-content: center;
   align-items: center;
+}
+
+.infoBtn {
+  border: 0px;
+  background-color: transparent;
+  font-size: 15px;
+}
+
+.infoBtn:hover {
+  background: #F6F9FE;
+  color: #174ea6;
+  text-decoration: underline;
 }
 
 .Logo {
@@ -158,5 +172,8 @@ header>div {
 
 .ProblemStatement {
   font-family: 'Maven Pro', sans-serif;
+}
 
+.MessageBox {
+  font-family: 'Maven Pro', sans-serif;
 }
