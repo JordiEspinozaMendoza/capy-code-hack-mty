@@ -13,14 +13,19 @@ import { MessageBox, Avatar } from "react-chat-elements";
 import IconButton from "@mui/material/IconButton";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Countdown from "react-countdown";
+import { problemStatements } from "@/utils/utils";
+
+const selectedProblemStatement =
+  problemStatements[Math.floor(Math.random() * problemStatements.length)];
 
 function Editor() {
   const [value, setValue] = useState("console.log('hello world!');");
   const [messages, setMessages] = useState([]);
   const [interviewStarted, setInterviewStarted] = useState(false);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const dateStarted = useRef(Date.now());
 
-  const onChange = useCallback((val) => {
+  const onChange = useCallback((val, z) => {
     socket.emit("user-update-code", {
       code: val,
     });
@@ -29,28 +34,34 @@ function Editor() {
 
   useEffect(() => {
     const handleGetSuggestion = () => {
+      setIsLoadingSuggestions(true);
       socket.emit("get-suggestion", {
         code: value,
-        id_user: 4,
+        id_user: 5,
+        problem: selectedProblemStatement,
       });
     };
 
     const interval = setInterval(() => {
-      if (interviewStarted) {
+      if (interviewStarted && !isLoadingSuggestions) {
         handleGetSuggestion();
       }
-    }, 10000);
+    }, 20000);
 
     return () => clearInterval(interval);
-  }, [value, interviewStarted]);
+  }, [value, interviewStarted, isLoadingSuggestions]);
 
   useEffect(() => {
     socket.on("suggestion", (data) => {
-      Object.keys(data.suggestion).map((key) => {
-        setMessages((messages) => [...messages, data.suggestion[key]]);
-      });
+      console.log(data.suggestion);
+      setIsLoadingSuggestions(false);
+      setMessages((messages) => [...messages, data.suggestion.message]);
     });
-  }, [dateStarted]);
+
+    return () => {
+      socket.off("suggestion");
+    };
+  }, []);
 
   if (!interviewStarted) {
     return (
@@ -102,6 +113,11 @@ function Editor() {
         </div>
 
         <div className="Chat">
+          <div className="ProblemStatement">
+            <h2>Problem Statement</h2>
+            <p>{selectedProblemStatement}</p>
+          </div>
+          {isLoadingSuggestions && <p>CapyCode is writing...</p>}
           {messages.slice(0, 10).map((message, key) => (
             <MessageBox
               key={key}
