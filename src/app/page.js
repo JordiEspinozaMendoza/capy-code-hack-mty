@@ -19,12 +19,17 @@ function Editor() {
   return (
     <>
       <header>
-        <img className="Logo" src="capybara.png" />
-        <p id="CompanyName">CapyCode</p>
-        <IconButton sx={{ color: "black" }}>
-          <HelpOutlineIcon />
-        </IconButton>
+        <div className="HeaderLogo">
+          <img className="Logo" src="capybara.png" />
+          <p id="CompanyName">CapyCode</p>
+        </div>
+        <div className="HelpButton">
+          <IconButton sx={{ color: "black" }}>
+            <HelpOutlineIcon />
+          </IconButton>
+        </div>
       </header>
+
       <div className="MainContent">
         <div className="Editor">
           <CodeMirror
