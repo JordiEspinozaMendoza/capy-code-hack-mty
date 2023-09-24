@@ -65,8 +65,10 @@ const createSuggestion = async (content, problem, testData) => {
         content: getPrompts(content, problem),
       },
     ],
-    model: "gpt-3.5-turbo",
+    model: "gpt-4",
   });
+
+  return suggestion.choices;
 };
 
 module.exports = {
