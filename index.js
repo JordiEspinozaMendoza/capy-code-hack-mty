@@ -94,8 +94,8 @@ io.on("connection", async (socket) => {
   });
 });
 
-server.listen(3001, async () => {
+server.listen(process.env.PORT, async () => {
   await client.connect();
 
-  console.log("server running at http://localhost:3000");
+  console.log("server running on port", process.env.PORT);
 });
