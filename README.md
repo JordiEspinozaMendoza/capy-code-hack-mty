@@ -34,7 +34,22 @@ El asistente de entrevistas de código es una potente aplicación web diseñada 
 ##Vinculos 
 1. capycode.co
 2. https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app
+   
+##Imagenes 
+1. capycode.coH
 
+   Lobby:
+   <img width="1249" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/3701a3d8-b9aa-47d1-8d2a-0b7ab5aa1ebb">
+
+   Coding Screen
+   <img width="355" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/fbd21ecc-717e-477e-a5c2-10280617bc54">
+
+   
+
+
+   
+
+3. https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app
 
 
 
