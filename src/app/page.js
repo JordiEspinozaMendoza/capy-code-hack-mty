@@ -40,8 +40,11 @@ function Editor() {
   const [messages, setMessages] = useState([]);
   const [interviewStarted, setInterviewStarted] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
-  const dateStarted = useRef(Date.now());
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
   const [open, setOpen] = React.useState(false);
+  const [openSubmission, setOpenSubmission] = React.useState(false);
+  const dateStarted = useRef(Date.now());
 
   const handleOpen = () => {
     setOpen(true);
@@ -67,19 +70,35 @@ function Editor() {
     };
 
     const interval = setInterval(() => {
-      if (interviewStarted && !isLoadingSuggestions) {
+      if (
+        interviewStarted &&
+        !isLoadingSuggestions &&
+        !isSubmitting &&
+        !feedbackMessage
+      ) {
         handleGetSuggestion();
       }
     }, 20000);
 
     return () => clearInterval(interval);
-  }, [value, interviewStarted, isLoadingSuggestions]);
+  }, [
+    value,
+    interviewStarted,
+    isLoadingSuggestions,
+    isSubmitting,
+    feedbackMessage,
+  ]);
 
   useEffect(() => {
     socket.on("suggestion", (data) => {
       console.log(data.suggestion);
       setIsLoadingSuggestions(false);
       setMessages((messages) => [...messages, data.suggestion.message]);
+    });
+
+    socket.on("code-reviewed", (data) => {
+      setIsSubmitting(false);
+      setFeedbackMessage(data.message);
     });
 
     return () => {
@@ -167,21 +186,76 @@ function Editor() {
             <p>{selectedProblemStatement}</p>
           </div>
           {isLoadingSuggestions && <p>CapyCode is writing...</p>}
-          {messages.slice(0, 10).map((message, key) => (
-            <MessageBox
-              className="MessageBox"
-              key={key}
-              position={"rights"}
-              type={"text"}
-              text={message}
-              title={"CapyCode"}
-              titleColor="#054A91"
-              avatar="capybara.png"
-              date={new Date()}
-            />
-          ))}
+          <div className="ChatContent">
+            {messages.slice(0, 10).map((message, key) => (
+              <MessageBox
+                className="MessageBox"
+                key={key}
+                position={"rights"}
+                type={"text"}
+                text={message}
+                title={"CapyCode"}
+                titleColor="#054A91"
+                avatar="capybara.png"
+                date={new Date()}
+              />
+            ))}
+          </div>
         </div>
       </div>
+
+      <div className="SubmissionButton">
+        <button
+          className="startBtn"
+          onClick={() => setOpenSubmission(true)}
+          disabled={isLoadingSuggestions}
+        >
+          Submit my solution
+        </button>
+      </div>
+      <Modal
+        open={openSubmission}
+        onClose={() => setOpenSubmission(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you want to submit?
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            CapyCode will evaluate your code and give you a feedback
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Good luck!
+          </Typography>
+          <button
+            className="startBtn"
+            onClick={() =>
+              socket.emit("user-submit-code", {
+                code: value,
+                id_user: 5,
+                problem: selectedProblemStatement,
+              })
+            }
+          >
+            Submit my solution
+          </button>
+        </Box>
+      </Modal>
+      <Modal open={feedbackMessage} onClose={() => window.location.reload()}>
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Feedback
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {feedbackMessage}
+          </Typography>
+          <button className="startBtn" onClick={() => window.location.reload()}>
+            Close this window
+          </button>
+        </Box>
+      </Modal>
     </>
   );
 }

@@ -9,6 +9,10 @@
   border: black 5px solid;
   border-radius: 0px 10px 10px 0px;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .MainContent {
@@ -176,4 +180,10 @@ header>div {
 
 .MessageBox {
   font-family: 'Maven Pro', sans-serif;
+}
+
+.SubmissionButton {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
 }
