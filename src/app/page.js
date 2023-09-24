@@ -30,7 +30,7 @@ function Editor() {
     const handleGetSuggestion = () => {
       socket.emit("get-suggestion", {
         code: value,
-        id_user: 3,
+        id_user: 4,
       });
     };
 
@@ -53,17 +53,22 @@ function Editor() {
 
   if (!interviewStarted) {
     return (
-      <div className="InterviewLobby">
-        <h2>Welcome to your interview</h2>
-        <button
-          onClick={() => {
-            setInterviewStarted(true);
-            socket.emit("user-start-interview");
-          }}
-        >
-          Start Interview
-        </button>
-      </div>
+      <body>
+        <div className="InterviewLobby">
+          <img className="LobbyLogo" src="capybara.png" />
+          <h2>Welcome to your interview!</h2>
+          <p>Navigating Interviews with Confidence</p>
+          <button
+            className="startBtn"
+            onClick={() => {
+              setInterviewStarted(true);
+              socket.emit("user-start-interview");
+            }}
+          >
+            Start Interview
+          </button>
+        </div>
+      </body>
     );
   }
   return (
@@ -93,7 +98,7 @@ function Editor() {
         </div>
 
         <div className="Chat">
-          {messages.map((message, key) => (
+          {messages.slice(0, 10).map((message, key) => (
             <MessageBox
               key={key}
               position={"rights"}
