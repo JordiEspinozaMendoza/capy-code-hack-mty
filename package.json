@@ -18,10 +18,14 @@
   },
   "homepage": "https://github.com/JordiEspinozaMendoza/CapyCode-Socket#readme",
   "dependencies": {
+    "chance": "^1.1.11",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "install": "^0.13.0",
+    "nodemon": "^3.0.1",
     "npm": "^10.1.0",
     "openai": "^4.10.0",
+    "redis": "^4.6.10",
     "socket.io": "^4.7.2"
   }
 }
