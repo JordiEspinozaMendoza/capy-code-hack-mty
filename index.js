@@ -60,7 +60,11 @@ app.get("/api/applicants/feedback/:id", async (req, res) => {
 io.on("connection", async (socket) => {
   console.log("a user connected");
 
-  socket.on("user-start-interview", () => {});
+  socket.on("user-start-interview", () => {
+    socket.emit("server-confirm-start-interview", {
+      dateStarted: new Date(),
+    });
+  });
 
   socket.on("user-update-code", ({ code }) => {
     // use OPEN AI tool to find code issues and send back to user
