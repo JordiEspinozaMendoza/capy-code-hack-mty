@@ -68,46 +68,50 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("get-suggestion", async ({ code, id_user, problem }) => {
-    const testData = false;
+    try {
+      const testData = true;
 
-    const suggestion = await createSuggestion(code, problem, testData);
+      const suggestion = await createSuggestion(code, problem, testData);
 
-    userSession = await client.get(`applicant_${id_user}`);
+      userSession = await client.get(`applicant_${id_user}`);
 
-    if (userSession) {
-      const newData = JSON.parse(userSession);
-      newData.push(suggestion);
+      if (userSession) {
+        const newData = JSON.parse(userSession);
+        newData.push(suggestion);
 
-      client.set(`applicant_${id_user}`, JSON.stringify(newData));
-    } else {
-      client.set(`applicant_${id_user}`, JSON.stringify([suggestion]));
-    }
-
-    let suggestionResponse = "";
-
-    let logic = "";
-    let syntax = "";
-
-    if (testData) {
-      suggestionResponse = "Test suggest data";
-    } else {
-      const message = JSON.parse(suggestion[0].message.content);
-
-      if (!message["logicIssues"].length) {
-        logic = `Logic issues\n${message["logicIssues"]}\n`;
-      }
-      if (message["syntaxIssues"].length) {
-        syntax = `Syntax issues\n${message["syntaxIssues"]}\n`;
+        client.set(`applicant_${id_user}`, JSON.stringify(newData));
+      } else {
+        client.set(`applicant_${id_user}`, JSON.stringify([suggestion]));
       }
 
-      suggestionResponse = `${logic}${syntax}\n${message["feedback"]}`;
-    }
+      let suggestionResponse = "";
 
-    socket.emit("suggestion", {
-      suggestion: {
-        message: suggestionResponse,
-      },
-    });
+      let logic = "";
+      let syntax = "";
+
+      if (testData) {
+        suggestionResponse = "Test suggest data";
+      } else {
+        const message = JSON.parse(suggestion[0].message.content);
+
+        if (!message["logicIssues"].length) {
+          logic = `Logic issues\n${message["logicIssues"]}\n`;
+        }
+        if (message["syntaxIssues"].length) {
+          syntax = `Syntax issues\n${message["syntaxIssues"]}\n`;
+        }
+
+        suggestionResponse = `${logic}${syntax}\n${message["feedback"]}`;
+      }
+
+      socket.emit("suggestion", {
+        suggestion: {
+          message: suggestionResponse,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   });
 });
 
