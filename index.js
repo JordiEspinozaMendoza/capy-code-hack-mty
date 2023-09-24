@@ -44,12 +44,22 @@ app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
 });
 
+app.get("/api/applicants", async (req, res) => {
+  const applicants = await client.keys("applicant_*");
+  return res.json(applicants);
+});
+
+app.get("/api/applicants/:id", async (req, res) => {
+  const { id } = req.params;
+  const applicant = await client.get(id);
+  return res.json(JSON.parse(applicant));
+});
 
 io.on("connection", async (socket) => {
   console.log("a user connected");
 
 
-  socket.on("user-start-interview", () => {});
+  socket.on("user-start-interview", () => { });
 
 
   socket.on("user-update-code", ({ code }) => {
@@ -66,102 +76,42 @@ io.on("connection", async (socket) => {
     const interviewDateFinished = new Date();
   });
 
+  socket.on("get-suggestion", async ({ code, id_user, problem }) => {
+    const suggestion = await createSuggestion(code, problem);
 
-  socket.on("get-suggestion", async ({ code, problem }) => {
-    const suggestion = await createSuggestion(code, problem );
+    const message = JSON.parse(suggestion[0].message.content);
 
+    let logic = "";
+    let syntax = "";
+    
+    if (!message["logicIssues"].length) {
+      logic = `Logic issues\n${message["logicIssues"]}\n`
+    }
+    if (message["syntaxIssues"].length) {
+      syntax = `Syntax issues\n${message["syntaxIssues"]}\n`
+    }
 
-    socket.emit("suggestion", { suggestion });
+    const userSession = await client.get(`applicant_${id_user}`);
+
+    if (userSession) {
+      const newData = JSON.parse(userSession);
+      newData.push(suggestion);
+
+      client.set(`applicant_${id_user}`, JSON.stringify(newData));
+    } else {
+      client.set(`applicant_${id_user}`, JSON.stringify([suggestion]));
+    }
+
+    socket.emit("suggestion", {
+      suggestion: {
+        message: `${logic}${syntax}\n${message["feedback"]}`
+      },
+    });
   });
 });
 
-
-server.listen(3000, async () => {
- 
-
-
+server.listen(3001, async () => {
   await client.connect();
-
-
-//  console.log(await createSuggestion(`
-//  var addTwoNumbers = function(l1, l2) {
-//    var carry = 0;
-//    var sum = 0;
-//    var head = new ListNode(0);
-//    var now = head;
-//    var a = l1;
-//    var b = l2;
-//    while (a !== null || b !== null) {
-//      sum = (a ? a.val : 0) - (b ? b.val : 0) - carry;
-//      carry = Math.floor(sum / 10);
-//      now.next = new ListNode(sum % 10);
-//      now = now.next;
-//      a = a ? a.next : null;
-//      b = b ? b.next : null;
-//    }
-//    if (carry) now.next = new ListNode(carry);
-//    return head.next;
-//  };
-//  `,
- 
-//  `
-//  You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
-//  You may assume the two numbers do not contain any leading zero, except the number 0 itself.
-//  `));
- let ola = await createSuggestion(`
- var addTwoNumbers = function(l1, l2)
-   var carry = 0;
-   var sum = 0;
-   var head = new ListNode(0);
-   var now = head;
-   var a = l1;
-   var b = l2;
-   while (a !== nll || b !== null) {
-     sum = (a ? a.val : 0) + (b ? b.val : 0) + carry;
-     carry = Math.floor(sum / 10);
-     now.next = new ListNode(sum % 10);
-     now = now.next;
-     a = a ? a.next : null;
-     b = b ? b.next : null;
-   }
-   if (carry) now.next = new ListNode(carry);
-   return head.next;
- };
- `,
- 
- `
- You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
- You may assume the two numbers do not contain any leading zero, except the number 0 itself.
- `);
- console.log(ola[0].message.content)
-let ola1 = JSON.parse(ola[0].message.content);
-
-
-let logic = "";
-let syntax = "";
-if(!ola1["logicIssues"].length) {
-}
-else {
-  logic =  `Logic issues\n${ola1["logicIssues"]}\n`
-
-}
-
-
-
-
-if(!ola1["syntaxIssues"].length) {
-}
-else{
-  syntax = `Syntax issues\n${ola1["syntaxIssues"]}\n`
-
-
-}
-console.log(  `${logic}${syntax}\n${ola1["feedback"]}
-
-
-`)
-
 
   console.log("server running at http://localhost:3000");
 });
-
