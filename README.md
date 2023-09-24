@@ -51,3 +51,18 @@ El asistente de entrevistas de código es una potente aplicación web diseñada 
    Dashboards de entrevistado:
    <br>
    <img width="1251" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/580b699e-8473-4f7f-bb71-1544105af0b9">
+
+## Tech Stack
+
+- **Frontend**: Next JS, Socket.io, Material UI
+  <img width="30" src="https://user-images.githubusercontent.com/25181517/187070862-03888f18-2e63-4332-95fb-3ba4f2708e59.png" alt="websocket" title="websocket"/>
+  <img width="30" src="https://user-images.githubusercontent.com/25181517/189716630-fe6c084c-6c66-43af-aa49-64c8aea4a5c2.png" alt="Material UI" title="Material UI"/>
+  <img width="30" src="https://github.com/marwin1991/profile-technology-icons/assets/136815194/5f8c622c-c217-4649-b0a9-7e0ee24bd704" alt="Next.js" title="Next.js"/>
+- **Backend**: Node.js, Express, Socket.io, OpenAI SDK, Streamlit
+  <img width="30" src="https://user-images.githubusercontent.com/25181517/183568594-85e280a7-0d7e-4d1a-9028-c8c2209e073c.png" alt="Node.js" title="Node.js"/>
+  <img width="30" src="https://user-images.githubusercontent.com/25181517/183859966-a3462d8d-1bc7-4880-b353-e2cbed900ed6.png" alt="Express" title="Express"/>
+
+- **Storages**: Redis
+  <img width="30" src="https://user-images.githubusercontent.com/25181517/182884894-d3fa6ee0-f2b4-4960-9961-64740f533f2a.png" alt="redis" title="redis"/>
+- **Deployment**: Heroku, Netlify
+- **CI/CD**: Github Actions
