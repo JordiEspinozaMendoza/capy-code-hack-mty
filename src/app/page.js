@@ -23,10 +23,7 @@ function Editor() {
   const [messages, setMessages] = useState([]);
   const [interviewStarted, setInterviewStarted] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-    console.log("open");
-  };
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const style = {
@@ -95,12 +92,7 @@ function Editor() {
             How it works
           </button>
 
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
+          <Modal open={open} onClose={handleClose}>
             <Box sx={style}>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 How it works
@@ -128,9 +120,19 @@ function Editor() {
           <p id="CompanyName">CapyCode</p>
         </div>
         <div className="HelpButton">
-          <IconButton sx={{ color: "black" }}>
+          <IconButton onClick={handleOpen} sx={{ color: "black" }}>
             <HelpOutlineIcon />
           </IconButton>
+          <Modal open={open} onClose={handleClose}>
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Need assistance?
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                If you need help, please contact us at:
+              </Typography>
+            </Box>
+          </Modal>
         </div>
       </header>
 
