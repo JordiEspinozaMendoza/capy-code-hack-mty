@@ -7,8 +7,8 @@ const configuration = {
   apiKey: process.env.OPEN_AI_API_KEY,
 };
 
-function getPrompts(code, problem) {
-  return  `
+const getPrompts = (code, problem) => {
+  return `
   This is a technical interview and you are the interviewer. 
   The candidate is trying to solve the following problem with JavaScript:
   problem start
@@ -34,24 +34,28 @@ function getPrompts(code, problem) {
     }
   }
   
-  `; 
-}
+  `;
+};
 
 const createSuggestion = async (content, problem, testData) => {
   if (testData) {
     return [
       {
-        suggest: "Test suggest data",
-        logicIssues: "Test logic issues",
-        syntaxIssues: "Test syntax issues",
-        feedback: "test feedback",
-        timeFrame: new Date(),
-        logicCount: chance.integer({ min: 0, max: 10 }),
-        syntaxCount: chance.integer({ min: 0, max: 10 }),
+        message: {
+          content: {
+            suggest: "Test suggest data",
+            logicIssues: "Test logic issues",
+            syntaxIssues: "Test syntax issues",
+            feedback: "test feedback",
+            timeFrame: new Date(),
+            logicCount: chance.integer({ min: 0, max: 10 }),
+            syntaxCount: chance.integer({ min: 0, max: 10 }),
+          },
+        },
       },
     ];
   }
-  
+
   const openai = new OpenAI(configuration);
 
   const suggestion = await openai.chat.completions.create({
@@ -63,10 +67,6 @@ const createSuggestion = async (content, problem, testData) => {
     ],
     model: "gpt-3.5-turbo",
   });
-
-  return suggestion.choices;
-
-  
 };
 
 module.exports = {
