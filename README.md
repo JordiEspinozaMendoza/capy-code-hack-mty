@@ -41,7 +41,7 @@ El asistente de entrevistas de código es una potente aplicación web diseñada 
    Lobby:
    <img width="1249" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/3701a3d8-b9aa-47d1-8d2a-0b7ab5aa1ebb">
 
-   Coding Screen
+   Coding Screen:
    <img width="355" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/fbd21ecc-717e-477e-a5c2-10280617bc54">
 
    
