@@ -44,10 +44,15 @@ El asistente de entrevistas de código es una potente aplicación web diseñada 
    Coding Screen: <br>
    <img width="355" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/fbd21ecc-717e-477e-a5c2-10280617bc54">
 
-   
+   Finished Screen: <br>
+   <img width="1234" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/dfb3f569-c691-4038-a8d9-4ed804b72744">
+
 
 
 2. https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app
+   <br>
+   <img width="1251" alt="image" src="https://github.com/JordiEspinozaMendoza/CapyCode-Socket/assets/81432796/580b699e-8473-4f7f-bb71-1544105af0b9">
+
 
 
 
