@@ -49,7 +49,7 @@ function Editor() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const onChange = useCallback((val, z) => {
+  const onChange = useCallback((val) => {
     socket.emit("user-update-code", {
       code: val,
     });
@@ -88,7 +88,6 @@ function Editor() {
 
   useEffect(() => {
     socket.on("suggestion", (data) => {
-      console.log(data.suggestion);
       setIsLoadingSuggestions(false);
       setMessages((messages) => [...messages, data.suggestion.message]);
     });
