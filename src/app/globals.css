@@ -177,7 +177,8 @@ header>div {
   font-family: 'Maven Pro', sans-serif;
 }
 
-.MessageBox {
+.MessageBox,
+.loadingMessage {
   font-family: 'Maven Pro', sans-serif;
 }
 

@@ -64,11 +64,6 @@ function Editor() {
   useEffect(() => {
     const handleGetSuggestion = () => {
       setIsLoadingSuggestions(true);
-      console.log({
-        code: value,
-        id_user: id_user,
-        problem: selectedProblemStatement,
-      });
       socket.emit("get-suggestion", {
         code: value,
         id_user: id_user,
@@ -201,7 +196,9 @@ function Editor() {
             <h2>Problem Statement</h2>
             <p>{selectedProblemStatement}</p>
           </div>
-          {isLoadingSuggestions && <p>CapyCode is writing...</p>}
+          {isLoadingSuggestions && (
+            <p className="loadingMessage">CapyCode is writing...</p>
+          )}
           <div className="ChatContent">
             {messages.slice(0, 10).map((message, key) => (
               <MessageBox
