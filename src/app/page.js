@@ -80,7 +80,7 @@ function Editor() {
       ) {
         handleGetSuggestion();
       }
-    }, 20000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [
