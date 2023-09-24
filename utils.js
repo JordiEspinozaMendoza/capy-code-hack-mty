@@ -1,4 +1,5 @@
 const { OpenAI } = require("openai");
+const chance = require("chance").Chance();
 
 require("dotenv").config();
 
@@ -14,6 +15,9 @@ const createSuggestion = async (content, testData) => {
         logicIssues: "Test logic issues",
         syntaxIssues: "Test syntax issues",
         feedback: "test feedback",
+        timeFrame: new Date(),
+        logicCount: chance.integer({ min: 0, max: 10 }),
+        syntaxCount: chance.integer({ min: 0, max: 10 }),
       },
     ];
   }
