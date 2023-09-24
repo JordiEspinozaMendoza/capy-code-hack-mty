@@ -1,15 +1,26 @@
-.Editor{
+.Editor {
   width: 50%;
 }
-.Chat{
+
+.Chat {
   width: 50%;
 }
-.MainContent{
+
+.MainContent {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
 }
-body{
+
+body {
   padding: 0;
   margin: 0;
+}
+
+.InterviewLobby {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
