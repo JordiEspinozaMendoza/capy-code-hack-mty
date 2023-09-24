@@ -8,7 +8,7 @@ import { vscodeDark, vscodeDarkInit } from "@uiw/codemirror-theme-vscode";
 import "react-chat-elements/dist/main.css";
 import io from "socket.io-client";
 import Modal from "@mui/material/Modal";
-
+import { useSearchParams } from "next/navigation";
 import { MessageBox, Avatar } from "react-chat-elements";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
@@ -35,6 +35,12 @@ const style = {
 };
 
 function Editor() {
+  // get user_id from query param
+  const searchParams = useSearchParams();
+
+  const id_user =
+    searchParams.get("id_user") || Math.floor(Math.random() * 100);
+
   const [value, setValue] = useState("console.log('hello world!');");
   const [messages, setMessages] = useState([]);
   const [interviewStarted, setInterviewStarted] = useState(false);
@@ -58,9 +64,14 @@ function Editor() {
   useEffect(() => {
     const handleGetSuggestion = () => {
       setIsLoadingSuggestions(true);
+      console.log({
+        code: value,
+        id_user: id_user,
+        problem: selectedProblemStatement,
+      });
       socket.emit("get-suggestion", {
         code: value,
-        id_user: 5,
+        id_user: id_user,
         problem: selectedProblemStatement,
       });
     };
@@ -83,6 +94,7 @@ function Editor() {
     isLoadingSuggestions,
     isSubmitting,
     feedbackMessage,
+    id_user,
   ]);
 
   useEffect(() => {
@@ -91,13 +103,15 @@ function Editor() {
       setMessages((messages) => [...messages, data.suggestion.message]);
     });
 
-    socket.on("code-reviewed", (data) => {
+    socket.on("submit_answer", (data) => {
       setIsSubmitting(false);
-      setFeedbackMessage(data.message);
+      setOpenSubmission(false);
+      setFeedbackMessage(data.suggestion.message);
     });
 
     return () => {
       socket.off("suggestion");
+      socket.off("submit_answer");
     };
   }, []);
 
@@ -222,27 +236,36 @@ function Editor() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Are you sure you want to submit?
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            CapyCode will evaluate your code and give you a feedback
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Good luck!
-          </Typography>
-          <button
-            className="startBtn"
-            onClick={() =>
-              socket.emit("user-submit-code", {
-                code: value,
-                id_user: 5,
-                problem: selectedProblemStatement,
-              })
-            }
-          >
-            Submit my solution
-          </button>
+          {!isSubmitting ? (
+            <>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Are you sure you want to submit?
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                CapyCode will evaluate your code and give you a feedback
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Good luck!
+              </Typography>
+              <button
+                className="startBtn"
+                onClick={() => {
+                  socket.emit("user-submit-code", {
+                    code: value,
+                    id_user: id_user,
+                    problem: selectedProblemStatement,
+                  });
+                  setIsSubmitting(true);
+                }}
+              >
+                Submit my solution
+              </button>
+            </>
+          ) : (
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              CapyCode is evaluating your code...
+            </Typography>
+          )}
         </Box>
       </Modal>
       <Modal open={feedbackMessage} onClose={() => window.location.reload()}>
