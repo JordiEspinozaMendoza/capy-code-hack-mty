@@ -46,10 +46,7 @@ function Editor() {
   const [openSubmission, setOpenSubmission] = React.useState(false);
   const dateStarted = useRef(Date.now());
 
-  const handleOpen = () => {
-    setOpen(true);
-    console.log("open");
-  };
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const onChange = useCallback((val, z) => {
@@ -126,12 +123,7 @@ function Editor() {
             How it works
           </button>
 
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
+          <Modal open={open} onClose={handleClose}>
             <Box sx={style}>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 How it works
@@ -151,6 +143,7 @@ function Editor() {
       </body>
     );
   }
+
   return (
     <>
       <header>
@@ -163,9 +156,20 @@ function Editor() {
             date={dateStarted.current + 60000 * 30}
             className="Countdown"
           />
-          <IconButton sx={{ color: "black" }}>
+
+          <IconButton onClick={handleOpen} sx={{ color: "black" }}>
             <HelpOutlineIcon />
           </IconButton>
+          <Modal open={open} onClose={handleClose}>
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Need assistance?
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                If you need help, please contact us at:
+              </Typography>
+            </Box>
+          </Modal>
         </div>
       </header>
 
@@ -259,4 +263,5 @@ function Editor() {
     </>
   );
 }
+
 export default Editor;
