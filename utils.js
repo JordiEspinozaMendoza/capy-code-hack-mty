@@ -17,9 +17,9 @@ const submitPrompt = (code, problem) => {
   Code starts here
   ${code}
   Code ends here.
-     Give your suggestion in this format:
+  Return ONLY this json object with the values filled in:
     { 
-      "answer": answer
+      "answer": yourSummaryAnswer,
     }
   }
   
@@ -38,6 +38,8 @@ const sendFinal = async (content, problem) => {
     ],
     model: "gpt-4",
   });
+
+  console.log(suggestion.choices);
 
   return suggestion.choices;
 };
@@ -59,7 +61,7 @@ const getPrompts = (code, problem) => {
    If logicIssues and syntaxIssues are empty, send [] in their respective fields.
     Give your suggestion in this json format (issues should be in the same string and line, leave a space after the comma
 
-    Return this json object with the values filled in:
+    Return ONLY this json object with the values filled in:
     { 
       "suggest": yourSuggestions,
       "logicIssues": yourLogicIssues,
