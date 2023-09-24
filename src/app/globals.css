@@ -150,3 +150,8 @@ header>div {
 .startBtn:disabled {
   box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
 }
+
+.Countdown {
+  font-size: 30px;
+  font-family: 'Maven Pro', sans-serif;
+}

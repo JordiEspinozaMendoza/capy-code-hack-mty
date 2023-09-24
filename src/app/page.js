@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import "./globals.css";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { vscodeDark, vscodeDarkInit } from "@uiw/codemirror-theme-vscode";
@@ -18,6 +18,7 @@ function Editor() {
   const [value, setValue] = useState("console.log('hello world!');");
   const [messages, setMessages] = useState([]);
   const [interviewStarted, setInterviewStarted] = useState(false);
+  const dateStarted = useRef(Date.now());
 
   const onChange = useCallback((val) => {
     socket.emit("user-update-code", {
@@ -49,7 +50,7 @@ function Editor() {
         setMessages((messages) => [...messages, data.suggestion[key]]);
       });
     });
-  }, []);
+  }, [dateStarted]);
 
   if (!interviewStarted) {
     return (
@@ -79,7 +80,10 @@ function Editor() {
           <p id="CompanyName">CapyCode</p>
         </div>
         <div className="HelpButton">
-          <Countdown date={Date.now() + 60000} />
+          <Countdown
+            date={dateStarted.current + 60000 * 30}
+            className="Countdown"
+          />
           <IconButton sx={{ color: "black" }}>
             <HelpOutlineIcon />
           </IconButton>
