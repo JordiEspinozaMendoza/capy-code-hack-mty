@@ -51,10 +51,16 @@ app.get("/api/applicants/:id", async (req, res) => {
   return res.json(JSON.parse(applicant));
 });
 
+app.get("/api/applicants/feedback/:id", async (req, res) => {
+  const { id } = req.params;
+  const applicant = await client.get(`${id}_feedback`);
+  return res.json(JSON.parse(applicant));
+});
+
 io.on("connection", async (socket) => {
   console.log("a user connected");
 
-  socket.on("user-start-interview", () => { });
+  socket.on("user-start-interview", () => {});
 
   socket.on("user-update-code", ({ code }) => {
     // use OPEN AI tool to find code issues and send back to user
@@ -74,7 +80,7 @@ io.on("connection", async (socket) => {
 
       const suggestion = await createSuggestion(code, problem, testData);
 
-      userSession = await client.get(`applicant_${id_user}`);
+      const userSession = await client.get(`applicant_${id_user}`);
 
       if (userSession) {
         const newData = JSON.parse(userSession);
@@ -115,12 +121,14 @@ io.on("connection", async (socket) => {
     }
   });
 
-  socket.on("submit", async ({ code, id_user, problem }) => {
+  socket.on("user-submit-code", async ({ code, id_user, problem }) => {
     try {
+      console.log("Submitting code");
+      const testData = false;
 
       const suggestion = await sendFinal(code, problem, testData);
 
-      userSession = await client.get(`applicant_${id_user}`);
+      const userSession = await client.get(`applicant_${id_user}`);
 
       if (userSession) {
         const newData = JSON.parse(userSession);
@@ -136,6 +144,11 @@ io.on("connection", async (socket) => {
       const message = JSON.parse(suggestion[0].message.content);
 
       answerResponse = message["answer"];
+
+      client.set(
+        `applicant_${id_user}_feedback`,
+        JSON.stringify(answerResponse)
+      );
 
       socket.emit("submit_answer", {
         suggestion: {

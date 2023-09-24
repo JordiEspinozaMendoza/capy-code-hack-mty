@@ -8,19 +8,18 @@ const configuration = {
 };
 const submitPrompt = (code, problem) => {
   return `
- This is a problem that needs to run in js
-  problem start
+ This is a problem that needs to be solved with a language of your choice.
+  PROBLEM STARTS HERE
   ${problem}
-  problem end 
+  PROBLEM END HERE
 
-  Check if this code will run correctly in js, if not, give suggestions on how to fix it.
+  Check if this code will run correctly, if not, give suggestions on how to fix it in a natural language (no code snippet)
   Code starts here
   ${code}
-    Code ends here.
+  Code ends here.
      Give your suggestion in this format:
     { 
-      "answer": answer,
-    
+      "answer": answer
     }
   }
   
@@ -28,7 +27,6 @@ const submitPrompt = (code, problem) => {
 };
 
 const sendFinal = async (content, problem) => {
-
   const openai = new OpenAI(configuration);
 
   const suggestion = await openai.chat.completions.create({
@@ -110,5 +108,5 @@ const createSuggestion = async (content, problem, testData) => {
 
 module.exports = {
   createSuggestion,
-  sendFinal
+  sendFinal,
 };
