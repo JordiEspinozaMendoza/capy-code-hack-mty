@@ -13,6 +13,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@lezer/highlight": "^1.1.6",
+    "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.10",
     "@uiw/codemirror-theme-vscode": "^4.21.18",
     "@uiw/codemirror-themes": "^4.21.18",
