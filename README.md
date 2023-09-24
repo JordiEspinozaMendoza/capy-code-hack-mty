@@ -47,9 +47,7 @@ El asistente de entrevistas de código es una potente aplicación web diseñada 
    
 
 
-   
-
-3. https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app
+2. https://alejandro-fierro-capycode-streamlit-app-rde3oj.streamlit.app
 
 
 
