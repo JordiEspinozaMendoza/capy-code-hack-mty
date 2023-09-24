@@ -124,7 +124,7 @@ io.on("connection", async (socket) => {
       } else {
         const message = JSON.parse(suggestion[0].message.content);
 
-        if (!message["logicIssues"].length) {
+        if (message["logicIssues"].length) {
           logic = `Logic issues\n${message["logicIssues"]}\n`;
         }
         if (message["syntaxIssues"].length) {
